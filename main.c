@@ -21,28 +21,43 @@ void main(void)
         switch ( estado )
         {
             case 0: 
+                    botoes_init();
+                    contatores_init();    
                     estado =1;
                     break;
             case 1: 
-                    botoes_init();
-                    contatores_init();
-                    estado =2;
+                    if(S1()==1)
+                       estado =2;
                     break;
             case 2: 
-                    if(S1()==1)
-                        K1(1);
-                        K2(1);
-                        delay(5000);
-                        K2(0);
-                        K3(1);
-                        estado =3;
+                    
+                    K1(1);
+                    K2(1);
+                    K3(0);
+                    t =5000;
+                    estado =3;
                     break;
             case 3: 
-                    if( S0() ==1 )
-                         K1(0); 
-                         K2(0);
-                         K3(0);
-          
+                     delay (1);
+                    --t;
+                    if(t<=0)
+                        estado =4;
+                    break;
+                    
+            case 4:
+                    K1(1);
+                    K2(0);
+                    K3(1);
+                    if(S0()==1)
+                        estado =5;
+                    break;
+            case 5:
+                    K1(0);
+                    K2(0);
+                    K3(0);
+                    estado =1;
+                    break;
+                         
         }        
     } 
 }

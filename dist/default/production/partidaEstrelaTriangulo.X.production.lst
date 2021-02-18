@@ -1,0 +1,2308 @@
+
+
+Microchip Technology PIC LITE Macro Assembler V2.00 build -1524193055 
+                                                                                               Thu Feb 18 16:41:37 2021
+
+Microchip Technology Omniscient Code Generator v2.00 (Free mode) build 20180527130849
+     1  0000                     
+      + 0000                     
+     2                           ; Version 2.00
+     3                           ; Generated 27/05/2018 GMT
+     4                           
+     5                           ; 
+     6                           ; Copyright © 2018, Microchip Technology Inc. and its subsidiaries ("Microchip")
+     7                           ; All rights reserved.
+     8                           ; 
+     9                           ; This software is developed by Microchip Technology Inc. and its subsidiaries ("Microch
+                                 ip").
+    10                           ; 
+    11                           ; Redistribution and use in source and binary forms, with or without modification, are
+    12                           ; permitted provided that the following conditions are met:
+    13                           ; 
+    14                           ;     1. Redistributions of source code must retain the above copyright notice, this lis
+                                 t of
+    15                           ;        conditions and the following disclaimer.
+    16                           ; 
+    17                           ;     2. Redistributions in binary form must reproduce the above copyright notice, this 
+                                 list
+    18                           ;        of conditions and the following disclaimer in the documentation and/or other
+    19                           ;        materials provided with the distribution.
+    20                           ; 
+    21                           ;     3. Microchip's name may not be used to endorse or promote products derived from th
+                                 is
+    22                           ;        software without specific prior written permission.
+    23                           ; 
+    24                           ; THIS SOFTWARE IS PROVIDED BY MICROCHIP "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+
+    25                           ; INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS F
+                                 OR
+    26                           ; PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL MICROCHIP BE LIABLE FOR ANY DIRECT, INDIREC
+                                 T,
+    27                           ; INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING BUT NOT LIMITED TO
+                                 
+    28                           ; PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA OR PROFITS; OR BUSINESS
+                                 
+    29                           ; INTERRUPTION) HOWSOEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, ST
+                                 RICT
+    30                           ; LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE U
+                                 SE OF
+    31                           ; THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+    32                           ; 
+    33                           
+    34                           
+    35                           ; 
+    36                           ; Code-generator required, PIC16F887 Definitions
+    37                           ; 
+    38  0004                     fsr0 equ 04h
+    39  0004                     indf equ 00h
+    40  0000                     indf0 equ 00h
+    41  0000                     pc equ 02h
+    42  0002                     pcl equ 02h
+    43  0002                     pclath equ 0Ah
+    44  000A                     status equ 03h
+    45  0003                     
+     2                           opt pagewidth 120
+     3  0000                     byte0	macro	val
+     4                           	(getbyte(val,0))
+     5                           endm
+     6  0000                     byte1	macro	val
+     7                           	(getbyte(val,1))
+     8                           endm
+     9  0000                     byte2	macro	val
+    10                           	(getbyte(val,2))
+    11                           endm
+    12  0000                     byte3	macro	val
+    13                           	(getbyte(val,3))
+    14                           endm
+    15  0000                     byte4	macro	val
+    16                           	(getbyte(val,4))
+    17                           endm
+    18  0000                     byte5	macro	val
+    19                           	(getbyte(val,5))
+    20                           endm
+    21  0000                     byte6	macro	val
+    22                           	(getbyte(val,6))
+    23                           endm
+    24  0000                     byte7	macro	val
+    25                           	(getbyte(val,7))
+    26                           endm
+    27  0000                     getword	macro	val,pos
+    28                           	(((val) >> (8 * pos)) and 0xffff)
+    29                           endm
+    30  0000                     word0	macro	val
+    31                           	(getword(val,0))
+    32                           endm
+    33  0000                     word1	macro	val
+    34                           	(getword(val,2))
+    35                           endm
+    36  0000                     word2	macro	val
+    37                           	(getword(val,4))
+    38                           endm
+    39  0000                     word3	macro	val
+    40                           	(getword(val,6))
+    41                           endm
+    42  0000                     gettword	macro	val,pos
+    43                           	(((val) >> (8 * pos)) and 0xffffff)
+    44                           endm
+    45  0000                     tword0	macro	val
+    46                           	(gettword(val,0))
+    47                           endm
+    48  0000                     tword1	macro	val
+    49                           	(gettword(val,3))
+    50                           endm
+    51  0000                     tword2	macro	val
+    52                           	(gettword(val,6))
+    53                           endm
+    54  0000                     getdword	macro	val,pos
+    55                           	(((val) >> (8 * pos)) and 0xffffffff)
+    56                           endm
+    57  0000                     dword0	macro	val
+    58                           	(getdword(val,0))
+    59                           endm
+    60  0000                     dword1	macro	val
+    61                           	(getdword(val,4))
+    62                           endm
+    63  0000                     clrc	macro
+    64                           	bcf	3,0
+    65                           	endm
+    66  0000                     clrz	macro
+    67                           	bcf	3,2
+    68                           	endm
+    69  0000                     setc	macro
+    70                           	bsf	3,0
+    71                           	endm
+    72  0000                     setz	macro
+    73                           	bsf	3,2
+    74                           	endm
+    75  0000                     skipc	macro
+    76                           	btfss	3,0
+    77                           	endm
+    78  0000                     skipz	macro
+    79                           	btfss	3,2
+    80                           	endm
+    81  0000                     skipnc	macro
+    82                           	btfsc	3,0
+    83                           	endm
+    84  0000                     skipnz	macro
+    85                           	btfsc	3,2
+    86                           	endm
+    87  0000                     # 54 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+    88                           INDF equ 00h ;# 
+    89  0000                     # 61 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+    90                           TMR0 equ 01h ;# 
+    91  0001                     # 68 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+    92                           PCL equ 02h ;# 
+    93  0002                     # 75 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+    94                           STATUS equ 03h ;# 
+    95  0003                     # 161 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+    96                           FSR equ 04h ;# 
+    97  0004                     # 168 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+    98                           PORTA equ 05h ;# 
+    99  0005                     # 230 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   100                           PORTB equ 06h ;# 
+   101  0006                     # 292 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   102                           PORTC equ 07h ;# 
+   103  0007                     # 354 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   104                           PORTD equ 08h ;# 
+   105  0008                     # 416 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   106                           PORTE equ 09h ;# 
+   107  0009                     # 454 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   108                           PCLATH equ 0Ah ;# 
+   109  000A                     # 461 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   110                           INTCON equ 0Bh ;# 
+   111  000B                     # 539 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   112                           PIR1 equ 0Ch ;# 
+   113  000C                     # 595 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   114                           PIR2 equ 0Dh ;# 
+   115  000D                     # 652 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   116                           TMR1 equ 0Eh ;# 
+   117  000E                     # 659 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   118                           TMR1L equ 0Eh ;# 
+   119  000E                     # 666 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   120                           TMR1H equ 0Fh ;# 
+   121  000F                     # 673 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   122                           T1CON equ 010h ;# 
+   123  0010                     # 767 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   124                           TMR2 equ 011h ;# 
+   125  0011                     # 774 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   126                           T2CON equ 012h ;# 
+   127  0012                     # 845 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   128                           SSPBUF equ 013h ;# 
+   129  0013                     # 852 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   130                           SSPCON equ 014h ;# 
+   131  0014                     # 922 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   132                           CCPR1 equ 015h ;# 
+   133  0015                     # 929 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   134                           CCPR1L equ 015h ;# 
+   135  0015                     # 936 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   136                           CCPR1H equ 016h ;# 
+   137  0016                     # 943 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   138                           CCP1CON equ 017h ;# 
+   139  0017                     # 1040 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   140                           RCSTA equ 018h ;# 
+   141  0018                     # 1135 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   142                           TXREG equ 019h ;# 
+   143  0019                     # 1142 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   144                           RCREG equ 01Ah ;# 
+   145  001A                     # 1149 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   146                           CCPR2 equ 01Bh ;# 
+   147  001B                     # 1156 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   148                           CCPR2L equ 01Bh ;# 
+   149  001B                     # 1163 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   150                           CCPR2H equ 01Ch ;# 
+   151  001C                     # 1170 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   152                           CCP2CON equ 01Dh ;# 
+   153  001D                     # 1240 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   154                           ADRESH equ 01Eh ;# 
+   155  001E                     # 1247 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   156                           ADCON0 equ 01Fh ;# 
+   157  001F                     # 1348 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   158                           OPTION_REG equ 081h ;# 
+   159  0081                     # 1418 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   160                           TRISA equ 085h ;# 
+   161  0085                     # 1480 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   162                           TRISB equ 086h ;# 
+   163  0086                     # 1542 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   164                           TRISC equ 087h ;# 
+   165  0087                     # 1604 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   166                           TRISD equ 088h ;# 
+   167  0088                     # 1666 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   168                           TRISE equ 089h ;# 
+   169  0089                     # 1704 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   170                           PIE1 equ 08Ch ;# 
+   171  008C                     # 1760 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   172                           PIE2 equ 08Dh ;# 
+   173  008D                     # 1817 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   174                           PCON equ 08Eh ;# 
+   175  008E                     # 1864 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   176                           OSCCON equ 08Fh ;# 
+   177  008F                     # 1929 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   178                           OSCTUNE equ 090h ;# 
+   179  0090                     # 1981 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   180                           SSPCON2 equ 091h ;# 
+   181  0091                     # 2043 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   182                           PR2 equ 092h ;# 
+   183  0092                     # 2050 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   184                           SSPADD equ 093h ;# 
+   185  0093                     # 2057 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   186                           SSPMSK equ 093h ;# 
+   187  0093                     # 2062 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   188                           MSK equ 093h ;# 
+   189  0093                     # 2179 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   190                           SSPSTAT equ 094h ;# 
+   191  0094                     # 2348 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   192                           WPUB equ 095h ;# 
+   193  0095                     # 2418 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   194                           IOCB equ 096h ;# 
+   195  0096                     # 2488 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   196                           VRCON equ 097h ;# 
+   197  0097                     # 2558 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   198                           TXSTA equ 098h ;# 
+   199  0098                     # 2644 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   200                           SPBRG equ 099h ;# 
+   201  0099                     # 2706 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   202                           SPBRGH equ 09Ah ;# 
+   203  009A                     # 2776 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   204                           PWM1CON equ 09Bh ;# 
+   205  009B                     # 2846 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   206                           ECCPAS equ 09Ch ;# 
+   207  009C                     # 2928 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   208                           PSTRCON equ 09Dh ;# 
+   209  009D                     # 2972 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   210                           ADRESL equ 09Eh ;# 
+   211  009E                     # 2979 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   212                           ADCON1 equ 09Fh ;# 
+   213  009F                     # 3013 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   214                           WDTCON equ 0105h ;# 
+   215  0105                     # 3066 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   216                           CM1CON0 equ 0107h ;# 
+   217  0107                     # 3131 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   218                           CM2CON0 equ 0108h ;# 
+   219  0108                     # 3196 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   220                           CM2CON1 equ 0109h ;# 
+   221  0109                     # 3247 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   222                           EEDATA equ 010Ch ;# 
+   223  010C                     # 3252 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   224                           EEDAT equ 010Ch ;# 
+   225  010C                     # 3259 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   226                           EEADR equ 010Dh ;# 
+   227  010D                     # 3266 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   228                           EEDATH equ 010Eh ;# 
+   229  010E                     # 3273 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   230                           EEADRH equ 010Fh ;# 
+   231  010F                     # 3280 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   232                           SRCON equ 0185h ;# 
+   233  0185                     # 3337 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   234                           BAUDCTL equ 0187h ;# 
+   235  0187                     # 3389 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   236                           ANSEL equ 0188h ;# 
+   237  0188                     # 3451 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   238                           ANSELH equ 0189h ;# 
+   239  0189                     # 3501 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   240                           EECON1 equ 018Ch ;# 
+   241  018C                     # 3546 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   242                           EECON2 equ 018Dh ;# 
+   243  018D                     # 54 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   244                           INDF equ 00h ;# 
+   245  0000                     # 61 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   246                           TMR0 equ 01h ;# 
+   247  0001                     # 68 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   248                           PCL equ 02h ;# 
+   249  0002                     # 75 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   250                           STATUS equ 03h ;# 
+   251  0003                     # 161 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   252                           FSR equ 04h ;# 
+   253  0004                     # 168 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   254                           PORTA equ 05h ;# 
+   255  0005                     # 230 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   256                           PORTB equ 06h ;# 
+   257  0006                     # 292 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   258                           PORTC equ 07h ;# 
+   259  0007                     # 354 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   260                           PORTD equ 08h ;# 
+   261  0008                     # 416 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   262                           PORTE equ 09h ;# 
+   263  0009                     # 454 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   264                           PCLATH equ 0Ah ;# 
+   265  000A                     # 461 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   266                           INTCON equ 0Bh ;# 
+   267  000B                     # 539 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   268                           PIR1 equ 0Ch ;# 
+   269  000C                     # 595 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   270                           PIR2 equ 0Dh ;# 
+   271  000D                     # 652 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   272                           TMR1 equ 0Eh ;# 
+   273  000E                     # 659 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   274                           TMR1L equ 0Eh ;# 
+   275  000E                     # 666 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   276                           TMR1H equ 0Fh ;# 
+   277  000F                     # 673 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   278                           T1CON equ 010h ;# 
+   279  0010                     # 767 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   280                           TMR2 equ 011h ;# 
+   281  0011                     # 774 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   282                           T2CON equ 012h ;# 
+   283  0012                     # 845 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   284                           SSPBUF equ 013h ;# 
+   285  0013                     # 852 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   286                           SSPCON equ 014h ;# 
+   287  0014                     # 922 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   288                           CCPR1 equ 015h ;# 
+   289  0015                     # 929 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   290                           CCPR1L equ 015h ;# 
+   291  0015                     # 936 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   292                           CCPR1H equ 016h ;# 
+   293  0016                     # 943 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   294                           CCP1CON equ 017h ;# 
+   295  0017                     # 1040 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   296                           RCSTA equ 018h ;# 
+   297  0018                     # 1135 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   298                           TXREG equ 019h ;# 
+   299  0019                     # 1142 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   300                           RCREG equ 01Ah ;# 
+   301  001A                     # 1149 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   302                           CCPR2 equ 01Bh ;# 
+   303  001B                     # 1156 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   304                           CCPR2L equ 01Bh ;# 
+   305  001B                     # 1163 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   306                           CCPR2H equ 01Ch ;# 
+   307  001C                     # 1170 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   308                           CCP2CON equ 01Dh ;# 
+   309  001D                     # 1240 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   310                           ADRESH equ 01Eh ;# 
+   311  001E                     # 1247 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   312                           ADCON0 equ 01Fh ;# 
+   313  001F                     # 1348 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   314                           OPTION_REG equ 081h ;# 
+   315  0081                     # 1418 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   316                           TRISA equ 085h ;# 
+   317  0085                     # 1480 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   318                           TRISB equ 086h ;# 
+   319  0086                     # 1542 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   320                           TRISC equ 087h ;# 
+   321  0087                     # 1604 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   322                           TRISD equ 088h ;# 
+   323  0088                     # 1666 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   324                           TRISE equ 089h ;# 
+   325  0089                     # 1704 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   326                           PIE1 equ 08Ch ;# 
+   327  008C                     # 1760 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   328                           PIE2 equ 08Dh ;# 
+   329  008D                     # 1817 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   330                           PCON equ 08Eh ;# 
+   331  008E                     # 1864 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   332                           OSCCON equ 08Fh ;# 
+   333  008F                     # 1929 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   334                           OSCTUNE equ 090h ;# 
+   335  0090                     # 1981 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   336                           SSPCON2 equ 091h ;# 
+   337  0091                     # 2043 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   338                           PR2 equ 092h ;# 
+   339  0092                     # 2050 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   340                           SSPADD equ 093h ;# 
+   341  0093                     # 2057 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   342                           SSPMSK equ 093h ;# 
+   343  0093                     # 2062 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   344                           MSK equ 093h ;# 
+   345  0093                     # 2179 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   346                           SSPSTAT equ 094h ;# 
+   347  0094                     # 2348 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   348                           WPUB equ 095h ;# 
+   349  0095                     # 2418 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   350                           IOCB equ 096h ;# 
+   351  0096                     # 2488 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   352                           VRCON equ 097h ;# 
+   353  0097                     # 2558 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   354                           TXSTA equ 098h ;# 
+   355  0098                     # 2644 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   356                           SPBRG equ 099h ;# 
+   357  0099                     # 2706 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   358                           SPBRGH equ 09Ah ;# 
+   359  009A                     # 2776 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   360                           PWM1CON equ 09Bh ;# 
+   361  009B                     # 2846 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   362                           ECCPAS equ 09Ch ;# 
+   363  009C                     # 2928 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   364                           PSTRCON equ 09Dh ;# 
+   365  009D                     # 2972 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   366                           ADRESL equ 09Eh ;# 
+   367  009E                     # 2979 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   368                           ADCON1 equ 09Fh ;# 
+   369  009F                     # 3013 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   370                           WDTCON equ 0105h ;# 
+   371  0105                     # 3066 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   372                           CM1CON0 equ 0107h ;# 
+   373  0107                     # 3131 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   374                           CM2CON0 equ 0108h ;# 
+   375  0108                     # 3196 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   376                           CM2CON1 equ 0109h ;# 
+   377  0109                     # 3247 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   378                           EEDATA equ 010Ch ;# 
+   379  010C                     # 3252 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   380                           EEDAT equ 010Ch ;# 
+   381  010C                     # 3259 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   382                           EEADR equ 010Dh ;# 
+   383  010D                     # 3266 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   384                           EEDATH equ 010Eh ;# 
+   385  010E                     # 3273 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   386                           EEADRH equ 010Fh ;# 
+   387  010F                     # 3280 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   388                           SRCON equ 0185h ;# 
+   389  0185                     # 3337 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   390                           BAUDCTL equ 0187h ;# 
+   391  0187                     # 3389 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   392                           ANSEL equ 0188h ;# 
+   393  0188                     # 3451 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   394                           ANSELH equ 0189h ;# 
+   395  0189                     # 3501 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   396                           EECON1 equ 018Ch ;# 
+   397  018C                     # 3546 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   398                           EECON2 equ 018Dh ;# 
+   399  018D                     # 54 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   400                           INDF equ 00h ;# 
+   401  0000                     # 61 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   402                           TMR0 equ 01h ;# 
+   403  0001                     # 68 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   404                           PCL equ 02h ;# 
+   405  0002                     # 75 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   406                           STATUS equ 03h ;# 
+   407  0003                     # 161 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   408                           FSR equ 04h ;# 
+   409  0004                     # 168 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   410                           PORTA equ 05h ;# 
+   411  0005                     # 230 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   412                           PORTB equ 06h ;# 
+   413  0006                     # 292 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   414                           PORTC equ 07h ;# 
+   415  0007                     # 354 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   416                           PORTD equ 08h ;# 
+   417  0008                     # 416 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   418                           PORTE equ 09h ;# 
+   419  0009                     # 454 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   420                           PCLATH equ 0Ah ;# 
+   421  000A                     # 461 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   422                           INTCON equ 0Bh ;# 
+   423  000B                     # 539 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   424                           PIR1 equ 0Ch ;# 
+   425  000C                     # 595 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   426                           PIR2 equ 0Dh ;# 
+   427  000D                     # 652 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   428                           TMR1 equ 0Eh ;# 
+   429  000E                     # 659 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   430                           TMR1L equ 0Eh ;# 
+   431  000E                     # 666 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   432                           TMR1H equ 0Fh ;# 
+   433  000F                     # 673 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   434                           T1CON equ 010h ;# 
+   435  0010                     # 767 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   436                           TMR2 equ 011h ;# 
+   437  0011                     # 774 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   438                           T2CON equ 012h ;# 
+   439  0012                     # 845 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   440                           SSPBUF equ 013h ;# 
+   441  0013                     # 852 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   442                           SSPCON equ 014h ;# 
+   443  0014                     # 922 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   444                           CCPR1 equ 015h ;# 
+   445  0015                     # 929 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   446                           CCPR1L equ 015h ;# 
+   447  0015                     # 936 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   448                           CCPR1H equ 016h ;# 
+   449  0016                     # 943 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   450                           CCP1CON equ 017h ;# 
+   451  0017                     # 1040 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   452                           RCSTA equ 018h ;# 
+   453  0018                     # 1135 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   454                           TXREG equ 019h ;# 
+   455  0019                     # 1142 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   456                           RCREG equ 01Ah ;# 
+   457  001A                     # 1149 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   458                           CCPR2 equ 01Bh ;# 
+   459  001B                     # 1156 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   460                           CCPR2L equ 01Bh ;# 
+   461  001B                     # 1163 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   462                           CCPR2H equ 01Ch ;# 
+   463  001C                     # 1170 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   464                           CCP2CON equ 01Dh ;# 
+   465  001D                     # 1240 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   466                           ADRESH equ 01Eh ;# 
+   467  001E                     # 1247 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   468                           ADCON0 equ 01Fh ;# 
+   469  001F                     # 1348 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   470                           OPTION_REG equ 081h ;# 
+   471  0081                     # 1418 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   472                           TRISA equ 085h ;# 
+   473  0085                     # 1480 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   474                           TRISB equ 086h ;# 
+   475  0086                     # 1542 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   476                           TRISC equ 087h ;# 
+   477  0087                     # 1604 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   478                           TRISD equ 088h ;# 
+   479  0088                     # 1666 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   480                           TRISE equ 089h ;# 
+   481  0089                     # 1704 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   482                           PIE1 equ 08Ch ;# 
+   483  008C                     # 1760 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   484                           PIE2 equ 08Dh ;# 
+   485  008D                     # 1817 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   486                           PCON equ 08Eh ;# 
+   487  008E                     # 1864 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   488                           OSCCON equ 08Fh ;# 
+   489  008F                     # 1929 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   490                           OSCTUNE equ 090h ;# 
+   491  0090                     # 1981 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   492                           SSPCON2 equ 091h ;# 
+   493  0091                     # 2043 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   494                           PR2 equ 092h ;# 
+   495  0092                     # 2050 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   496                           SSPADD equ 093h ;# 
+   497  0093                     # 2057 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   498                           SSPMSK equ 093h ;# 
+   499  0093                     # 2062 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   500                           MSK equ 093h ;# 
+   501  0093                     # 2179 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   502                           SSPSTAT equ 094h ;# 
+   503  0094                     # 2348 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   504                           WPUB equ 095h ;# 
+   505  0095                     # 2418 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   506                           IOCB equ 096h ;# 
+   507  0096                     # 2488 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   508                           VRCON equ 097h ;# 
+   509  0097                     # 2558 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   510                           TXSTA equ 098h ;# 
+   511  0098                     # 2644 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   512                           SPBRG equ 099h ;# 
+   513  0099                     # 2706 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   514                           SPBRGH equ 09Ah ;# 
+   515  009A                     # 2776 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   516                           PWM1CON equ 09Bh ;# 
+   517  009B                     # 2846 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   518                           ECCPAS equ 09Ch ;# 
+   519  009C                     # 2928 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   520                           PSTRCON equ 09Dh ;# 
+   521  009D                     # 2972 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   522                           ADRESL equ 09Eh ;# 
+   523  009E                     # 2979 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   524                           ADCON1 equ 09Fh ;# 
+   525  009F                     # 3013 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   526                           WDTCON equ 0105h ;# 
+   527  0105                     # 3066 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   528                           CM1CON0 equ 0107h ;# 
+   529  0107                     # 3131 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   530                           CM2CON0 equ 0108h ;# 
+   531  0108                     # 3196 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   532                           CM2CON1 equ 0109h ;# 
+   533  0109                     # 3247 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   534                           EEDATA equ 010Ch ;# 
+   535  010C                     # 3252 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   536                           EEDAT equ 010Ch ;# 
+   537  010C                     # 3259 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   538                           EEADR equ 010Dh ;# 
+   539  010D                     # 3266 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   540                           EEDATH equ 010Eh ;# 
+   541  010E                     # 3273 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   542                           EEADRH equ 010Fh ;# 
+   543  010F                     # 3280 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   544                           SRCON equ 0185h ;# 
+   545  0185                     # 3337 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   546                           BAUDCTL equ 0187h ;# 
+   547  0187                     # 3389 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   548                           ANSEL equ 0188h ;# 
+   549  0188                     # 3451 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   550                           ANSELH equ 0189h ;# 
+   551  0189                     # 3501 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   552                           EECON1 equ 018Ch ;# 
+   553  018C                     # 3546 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   554                           EECON2 equ 018Dh ;# 
+   555  018D                     # 54 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   556                           INDF equ 00h ;# 
+   557  0000                     # 61 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   558                           TMR0 equ 01h ;# 
+   559  0001                     # 68 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   560                           PCL equ 02h ;# 
+   561  0002                     # 75 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   562                           STATUS equ 03h ;# 
+   563  0003                     # 161 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   564                           FSR equ 04h ;# 
+   565  0004                     # 168 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   566                           PORTA equ 05h ;# 
+   567  0005                     # 230 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   568                           PORTB equ 06h ;# 
+   569  0006                     # 292 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   570                           PORTC equ 07h ;# 
+   571  0007                     # 354 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   572                           PORTD equ 08h ;# 
+   573  0008                     # 416 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   574                           PORTE equ 09h ;# 
+   575  0009                     # 454 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   576                           PCLATH equ 0Ah ;# 
+   577  000A                     # 461 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   578                           INTCON equ 0Bh ;# 
+   579  000B                     # 539 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   580                           PIR1 equ 0Ch ;# 
+   581  000C                     # 595 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   582                           PIR2 equ 0Dh ;# 
+   583  000D                     # 652 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   584                           TMR1 equ 0Eh ;# 
+   585  000E                     # 659 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   586                           TMR1L equ 0Eh ;# 
+   587  000E                     # 666 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   588                           TMR1H equ 0Fh ;# 
+   589  000F                     # 673 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   590                           T1CON equ 010h ;# 
+   591  0010                     # 767 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   592                           TMR2 equ 011h ;# 
+   593  0011                     # 774 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   594                           T2CON equ 012h ;# 
+   595  0012                     # 845 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   596                           SSPBUF equ 013h ;# 
+   597  0013                     # 852 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   598                           SSPCON equ 014h ;# 
+   599  0014                     # 922 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   600                           CCPR1 equ 015h ;# 
+   601  0015                     # 929 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   602                           CCPR1L equ 015h ;# 
+   603  0015                     # 936 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   604                           CCPR1H equ 016h ;# 
+   605  0016                     # 943 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   606                           CCP1CON equ 017h ;# 
+   607  0017                     # 1040 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   608                           RCSTA equ 018h ;# 
+   609  0018                     # 1135 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   610                           TXREG equ 019h ;# 
+   611  0019                     # 1142 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   612                           RCREG equ 01Ah ;# 
+   613  001A                     # 1149 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   614                           CCPR2 equ 01Bh ;# 
+   615  001B                     # 1156 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   616                           CCPR2L equ 01Bh ;# 
+   617  001B                     # 1163 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   618                           CCPR2H equ 01Ch ;# 
+   619  001C                     # 1170 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   620                           CCP2CON equ 01Dh ;# 
+   621  001D                     # 1240 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   622                           ADRESH equ 01Eh ;# 
+   623  001E                     # 1247 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   624                           ADCON0 equ 01Fh ;# 
+   625  001F                     # 1348 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   626                           OPTION_REG equ 081h ;# 
+   627  0081                     # 1418 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   628                           TRISA equ 085h ;# 
+   629  0085                     # 1480 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   630                           TRISB equ 086h ;# 
+   631  0086                     # 1542 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   632                           TRISC equ 087h ;# 
+   633  0087                     # 1604 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   634                           TRISD equ 088h ;# 
+   635  0088                     # 1666 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   636                           TRISE equ 089h ;# 
+   637  0089                     # 1704 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   638                           PIE1 equ 08Ch ;# 
+   639  008C                     # 1760 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   640                           PIE2 equ 08Dh ;# 
+   641  008D                     # 1817 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   642                           PCON equ 08Eh ;# 
+   643  008E                     # 1864 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   644                           OSCCON equ 08Fh ;# 
+   645  008F                     # 1929 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   646                           OSCTUNE equ 090h ;# 
+   647  0090                     # 1981 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   648                           SSPCON2 equ 091h ;# 
+   649  0091                     # 2043 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   650                           PR2 equ 092h ;# 
+   651  0092                     # 2050 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   652                           SSPADD equ 093h ;# 
+   653  0093                     # 2057 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   654                           SSPMSK equ 093h ;# 
+   655  0093                     # 2062 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   656                           MSK equ 093h ;# 
+   657  0093                     # 2179 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   658                           SSPSTAT equ 094h ;# 
+   659  0094                     # 2348 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   660                           WPUB equ 095h ;# 
+   661  0095                     # 2418 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   662                           IOCB equ 096h ;# 
+   663  0096                     # 2488 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   664                           VRCON equ 097h ;# 
+   665  0097                     # 2558 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   666                           TXSTA equ 098h ;# 
+   667  0098                     # 2644 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   668                           SPBRG equ 099h ;# 
+   669  0099                     # 2706 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   670                           SPBRGH equ 09Ah ;# 
+   671  009A                     # 2776 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   672                           PWM1CON equ 09Bh ;# 
+   673  009B                     # 2846 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   674                           ECCPAS equ 09Ch ;# 
+   675  009C                     # 2928 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   676                           PSTRCON equ 09Dh ;# 
+   677  009D                     # 2972 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   678                           ADRESL equ 09Eh ;# 
+   679  009E                     # 2979 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   680                           ADCON1 equ 09Fh ;# 
+   681  009F                     # 3013 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   682                           WDTCON equ 0105h ;# 
+   683  0105                     # 3066 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   684                           CM1CON0 equ 0107h ;# 
+   685  0107                     # 3131 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   686                           CM2CON0 equ 0108h ;# 
+   687  0108                     # 3196 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   688                           CM2CON1 equ 0109h ;# 
+   689  0109                     # 3247 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   690                           EEDATA equ 010Ch ;# 
+   691  010C                     # 3252 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   692                           EEDAT equ 010Ch ;# 
+   693  010C                     # 3259 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   694                           EEADR equ 010Dh ;# 
+   695  010D                     # 3266 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   696                           EEDATH equ 010Eh ;# 
+   697  010E                     # 3273 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   698                           EEADRH equ 010Fh ;# 
+   699  010F                     # 3280 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   700                           SRCON equ 0185h ;# 
+   701  0185                     # 3337 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   702                           BAUDCTL equ 0187h ;# 
+   703  0187                     # 3389 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   704                           ANSEL equ 0188h ;# 
+   705  0188                     # 3451 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   706                           ANSELH equ 0189h ;# 
+   707  0189                     # 3501 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   708                           EECON1 equ 018Ch ;# 
+   709  018C                     # 3546 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   710                           EECON2 equ 018Dh ;# 
+   711  018D                     # 54 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   712                           INDF equ 00h ;# 
+   713  0000                     # 61 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   714                           TMR0 equ 01h ;# 
+   715  0001                     # 68 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   716                           PCL equ 02h ;# 
+   717  0002                     # 75 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   718                           STATUS equ 03h ;# 
+   719  0003                     # 161 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   720                           FSR equ 04h ;# 
+   721  0004                     # 168 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   722                           PORTA equ 05h ;# 
+   723  0005                     # 230 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   724                           PORTB equ 06h ;# 
+   725  0006                     # 292 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   726                           PORTC equ 07h ;# 
+   727  0007                     # 354 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   728                           PORTD equ 08h ;# 
+   729  0008                     # 416 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   730                           PORTE equ 09h ;# 
+   731  0009                     # 454 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   732                           PCLATH equ 0Ah ;# 
+   733  000A                     # 461 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   734                           INTCON equ 0Bh ;# 
+   735  000B                     # 539 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   736                           PIR1 equ 0Ch ;# 
+   737  000C                     # 595 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   738                           PIR2 equ 0Dh ;# 
+   739  000D                     # 652 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   740                           TMR1 equ 0Eh ;# 
+   741  000E                     # 659 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   742                           TMR1L equ 0Eh ;# 
+   743  000E                     # 666 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   744                           TMR1H equ 0Fh ;# 
+   745  000F                     # 673 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   746                           T1CON equ 010h ;# 
+   747  0010                     # 767 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   748                           TMR2 equ 011h ;# 
+   749  0011                     # 774 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   750                           T2CON equ 012h ;# 
+   751  0012                     # 845 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   752                           SSPBUF equ 013h ;# 
+   753  0013                     # 852 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   754                           SSPCON equ 014h ;# 
+   755  0014                     # 922 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   756                           CCPR1 equ 015h ;# 
+   757  0015                     # 929 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   758                           CCPR1L equ 015h ;# 
+   759  0015                     # 936 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   760                           CCPR1H equ 016h ;# 
+   761  0016                     # 943 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   762                           CCP1CON equ 017h ;# 
+   763  0017                     # 1040 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   764                           RCSTA equ 018h ;# 
+   765  0018                     # 1135 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   766                           TXREG equ 019h ;# 
+   767  0019                     # 1142 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   768                           RCREG equ 01Ah ;# 
+   769  001A                     # 1149 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   770                           CCPR2 equ 01Bh ;# 
+   771  001B                     # 1156 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   772                           CCPR2L equ 01Bh ;# 
+   773  001B                     # 1163 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   774                           CCPR2H equ 01Ch ;# 
+   775  001C                     # 1170 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   776                           CCP2CON equ 01Dh ;# 
+   777  001D                     # 1240 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   778                           ADRESH equ 01Eh ;# 
+   779  001E                     # 1247 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   780                           ADCON0 equ 01Fh ;# 
+   781  001F                     # 1348 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   782                           OPTION_REG equ 081h ;# 
+   783  0081                     # 1418 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   784                           TRISA equ 085h ;# 
+   785  0085                     # 1480 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   786                           TRISB equ 086h ;# 
+   787  0086                     # 1542 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   788                           TRISC equ 087h ;# 
+   789  0087                     # 1604 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   790                           TRISD equ 088h ;# 
+   791  0088                     # 1666 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   792                           TRISE equ 089h ;# 
+   793  0089                     # 1704 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   794                           PIE1 equ 08Ch ;# 
+   795  008C                     # 1760 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   796                           PIE2 equ 08Dh ;# 
+   797  008D                     # 1817 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   798                           PCON equ 08Eh ;# 
+   799  008E                     # 1864 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   800                           OSCCON equ 08Fh ;# 
+   801  008F                     # 1929 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   802                           OSCTUNE equ 090h ;# 
+   803  0090                     # 1981 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   804                           SSPCON2 equ 091h ;# 
+   805  0091                     # 2043 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   806                           PR2 equ 092h ;# 
+   807  0092                     # 2050 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   808                           SSPADD equ 093h ;# 
+   809  0093                     # 2057 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   810                           SSPMSK equ 093h ;# 
+   811  0093                     # 2062 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   812                           MSK equ 093h ;# 
+   813  0093                     # 2179 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   814                           SSPSTAT equ 094h ;# 
+   815  0094                     # 2348 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   816                           WPUB equ 095h ;# 
+   817  0095                     # 2418 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   818                           IOCB equ 096h ;# 
+   819  0096                     # 2488 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   820                           VRCON equ 097h ;# 
+   821  0097                     # 2558 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   822                           TXSTA equ 098h ;# 
+   823  0098                     # 2644 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   824                           SPBRG equ 099h ;# 
+   825  0099                     # 2706 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   826                           SPBRGH equ 09Ah ;# 
+   827  009A                     # 2776 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   828                           PWM1CON equ 09Bh ;# 
+   829  009B                     # 2846 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   830                           ECCPAS equ 09Ch ;# 
+   831  009C                     # 2928 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   832                           PSTRCON equ 09Dh ;# 
+   833  009D                     # 2972 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   834                           ADRESL equ 09Eh ;# 
+   835  009E                     # 2979 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   836                           ADCON1 equ 09Fh ;# 
+   837  009F                     # 3013 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   838                           WDTCON equ 0105h ;# 
+   839  0105                     # 3066 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   840                           CM1CON0 equ 0107h ;# 
+   841  0107                     # 3131 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   842                           CM2CON0 equ 0108h ;# 
+   843  0108                     # 3196 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   844                           CM2CON1 equ 0109h ;# 
+   845  0109                     # 3247 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   846                           EEDATA equ 010Ch ;# 
+   847  010C                     # 3252 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   848                           EEDAT equ 010Ch ;# 
+   849  010C                     # 3259 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   850                           EEADR equ 010Dh ;# 
+   851  010D                     # 3266 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   852                           EEDATH equ 010Eh ;# 
+   853  010E                     # 3273 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   854                           EEADRH equ 010Fh ;# 
+   855  010F                     # 3280 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   856                           SRCON equ 0185h ;# 
+   857  0185                     # 3337 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   858                           BAUDCTL equ 0187h ;# 
+   859  0187                     # 3389 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   860                           ANSEL equ 0188h ;# 
+   861  0188                     # 3451 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   862                           ANSELH equ 0189h ;# 
+   863  0189                     # 3501 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   864                           EECON1 equ 018Ch ;# 
+   865  018C                     # 3546 "C:\Program Files (x86)\Microchip\xc8\v2.00\pic\include\pic16f887.h"
+   866                           EECON2 equ 018Dh ;# 
+   867  018D                     	FNCALL	_main,_K1
+   868                           	FNCALL	_main,_K2
+   869                           	FNCALL	_main,_K3
+   870                           	FNCALL	_main,_S0
+   871                           	FNCALL	_main,_S1
+   872                           	FNCALL	_main,_botoes_init
+   873                           	FNCALL	_main,_contatores_init
+   874                           	FNCALL	_main,_delay
+   875                           	FNROOT	_main
+   876                           	global	_PORTDbits
+   877                           _PORTDbits	set	0x8
+   878  0008                     	global	_TRISDbits
+   879                           _TRISDbits	set	0x88
+   880  0088                     ; #config settings
+   881                           global __CFG_FOSC$INTRC_NOCLKOUT
+   882                           __CFG_FOSC$INTRC_NOCLKOUT equ 0x0
+   883  0000                     global __CFG_WDTE$OFF
+   884                           __CFG_WDTE$OFF equ 0x0
+   885  0000                     global __CFG_PWRTE$OFF
+   886                           __CFG_PWRTE$OFF equ 0x0
+   887  0000                     global __CFG_MCLRE$OFF
+   888                           __CFG_MCLRE$OFF equ 0x0
+   889  0000                     global __CFG_CP$OFF
+   890                           __CFG_CP$OFF equ 0x0
+   891  0000                     global __CFG_CPD$OFF
+   892                           __CFG_CPD$OFF equ 0x0
+   893  0000                     global __CFG_BOREN$OFF
+   894                           __CFG_BOREN$OFF equ 0x0
+   895  0000                     global __CFG_IESO$OFF
+   896                           __CFG_IESO$OFF equ 0x0
+   897  0000                     global __CFG_FCMEN$OFF
+   898                           __CFG_FCMEN$OFF equ 0x0
+   899  0000                     global __CFG_LVP$OFF
+   900                           __CFG_LVP$OFF equ 0x0
+   901  0000                     global __CFG_BOR4V$BOR40V
+   902                           __CFG_BOR4V$BOR40V equ 0x0
+   903  0000                     global __CFG_WRT$OFF
+   904                           __CFG_WRT$OFF equ 0x0
+   905  0000                     	file	"C:\Users\21193066\AppData\Local\Temp\s96k."
+   906                           	line	#
+   907                           psect cinit,class=CODE,delta=2
+   908                           global start_initialization
+   909                           start_initialization:
+   910  07FC                     
+   911                           global __initialization
+   912                           __initialization:
+   913  07FC                     psect cinit,class=CODE,delta=2,merge=1
+   914                           global end_of_initialization,__end_of__initialization
+   915                           
+   916                           ;End of C runtime variable initialization code
+   917                           
+   918                           end_of_initialization:
+   919  07FC                     __end_of__initialization:
+   920  07FC                     clrf status
+   921  07FC  0183               ljmp _main	;jump to C main() function
+   922  07FD  120A  118A  2F2C   psect	cstackCOMMON,class=COMMON,space=1,noexec
+   923                           global __pcstackCOMMON
+   924                           __pcstackCOMMON:
+   925  0070                     ?_botoes_init:	; 1 bytes @ 0x0
+   926  0070                     ??_botoes_init:	; 1 bytes @ 0x0
+   927  0070                     ?_contatores_init:	; 1 bytes @ 0x0
+   928  0070                     ??_contatores_init:	; 1 bytes @ 0x0
+   929  0070                     ?_K1:	; 1 bytes @ 0x0
+   930  0070                     ?_K2:	; 1 bytes @ 0x0
+   931  0070                     ?_K3:	; 1 bytes @ 0x0
+   932  0070                     ?_delay:	; 1 bytes @ 0x0
+   933  0070                     ?_main:	; 1 bytes @ 0x0
+   934  0070                     	global	?_S1
+   935                           ?_S1:	; 2 bytes @ 0x0
+   936  0070                     	global	?_S0
+   937                           ?_S0:	; 2 bytes @ 0x0
+   938  0070                     	global	delay@t
+   939                           delay@t:	; 2 bytes @ 0x0
+   940  0070                     	global	K1@x
+   941                           K1@x:	; 2 bytes @ 0x0
+   942  0070                     	global	K2@x
+   943                           K2@x:	; 2 bytes @ 0x0
+   944  0070                     	global	K3@x
+   945                           K3@x:	; 2 bytes @ 0x0
+   946  0070                     	ds	2
+   947  0070                     ??_S1:	; 1 bytes @ 0x2
+   948  0072                     ??_K1:	; 1 bytes @ 0x2
+   949  0072                     ??_K2:	; 1 bytes @ 0x2
+   950  0072                     ??_K3:	; 1 bytes @ 0x2
+   951  0072                     ??_delay:	; 1 bytes @ 0x2
+   952  0072                     ??_S0:	; 1 bytes @ 0x2
+   953  0072                     	ds	2
+   954  0072                     ??_main:	; 1 bytes @ 0x4
+   955  0074                     	global	main@t
+   956                           main@t:	; 2 bytes @ 0x4
+   957  0074                     	ds	2
+   958  0074                     	global	main@estado
+   959                           main@estado:	; 2 bytes @ 0x6
+   960  0076                     	ds	2
+   961  0076                     ;!
+   962                           ;!Data Sizes:
+   963                           ;!    Strings     0
+   964                           ;!    Constant    0
+   965                           ;!    Data        0
+   966                           ;!    BSS         0
+   967                           ;!    Persistent  0
+   968                           ;!    Stack       0
+   969                           ;!
+   970                           ;!Auto Spaces:
+   971                           ;!    Space          Size  Autos    Used
+   972                           ;!    COMMON           14      8       8
+   973                           ;!    BANK0            80      0       0
+   974                           ;!    BANK1            80      0       0
+   975                           ;!    BANK3            96      0       0
+   976                           ;!    BANK2            96      0       0
+   977                           
+   978                           ;!
+   979                           ;!Pointer List with Targets:
+   980                           ;!
+   981                           ;!    None.
+   982                           
+   983                           
+   984                           ;!
+   985                           ;!Critical Paths under _main in COMMON
+   986                           ;!
+   987                           ;!    _main->_S0
+   988                           ;!    _main->_S1
+   989                           ;!
+   990                           ;!Critical Paths under _main in BANK0
+   991                           ;!
+   992                           ;!    None.
+   993                           ;!
+   994                           ;!Critical Paths under _main in BANK1
+   995                           ;!
+   996                           ;!    None.
+   997                           ;!
+   998                           ;!Critical Paths under _main in BANK3
+   999                           ;!
+  1000                           ;!    None.
+  1001                           ;!
+  1002                           ;!Critical Paths under _main in BANK2
+  1003                           ;!
+  1004                           ;!    None.
+  1005                           
+  1006 ;;
+  1007 ;;Main: autosize = 0, tempsize = 0, incstack = 0, save=0
+  1008 ;;
+  1009                           
+  1010                           ;!
+  1011                           ;!Call Graph Tables:
+  1012                           ;!
+  1013                           ;! ---------------------------------------------------------------------------------
+  1014                           ;! (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+  1015                           ;! ---------------------------------------------------------------------------------
+  1016                           ;! (0) _main                                                 4     4      0     902
+  1017                           ;!                                              4 COMMON     4     4      0
+  1018                           ;!                                 _K1
+  1019                           ;!                                 _K2
+  1020                           ;!                                 _K3
+  1021                           ;!                                 _S0
+  1022                           ;!                                 _S1
+  1023                           ;!                        _botoes_init
+  1024                           ;!                    _contatores_init
+  1025                           ;!                              _delay
+  1026                           ;! ---------------------------------------------------------------------------------
+  1027                           ;! (1) _delay                                                3     1      2      99
+  1028                           ;!                                              0 COMMON     3     1      2
+  1029                           ;! ---------------------------------------------------------------------------------
+  1030                           ;! (1) _contatores_init                                      0     0      0       0
+  1031                           ;! ---------------------------------------------------------------------------------
+  1032                           ;! (1) _botoes_init                                          0     0      0       0
+  1033                           ;! ---------------------------------------------------------------------------------
+  1034                           ;! (1) _S1                                                   4     2      2       0
+  1035                           ;!                                              0 COMMON     4     2      2
+  1036                           ;! ---------------------------------------------------------------------------------
+  1037                           ;! (1) _S0                                                   4     2      2       0
+  1038                           ;!                                              0 COMMON     4     2      2
+  1039                           ;! ---------------------------------------------------------------------------------
+  1040                           ;! (1) _K3                                                   2     0      2     250
+  1041                           ;!                                              0 COMMON     2     0      2
+  1042                           ;! ---------------------------------------------------------------------------------
+  1043                           ;! (1) _K2                                                   2     0      2     250
+  1044                           ;!                                              0 COMMON     2     0      2
+  1045                           ;! ---------------------------------------------------------------------------------
+  1046                           ;! (1) _K1                                                   2     0      2     250
+  1047                           ;!                                              0 COMMON     2     0      2
+  1048                           ;! ---------------------------------------------------------------------------------
+  1049                           ;! Estimated maximum stack depth 1
+  1050                           ;! ---------------------------------------------------------------------------------
+  1051                           ;!
+  1052                           ;! Call Graph Graphs:
+  1053                           ;!
+  1054                           ;! _main (ROOT)
+  1055                           ;!   _K1
+  1056                           ;!   _K2
+  1057                           ;!   _K3
+  1058                           ;!   _S0
+  1059                           ;!   _S1
+  1060                           ;!   _botoes_init
+  1061                           ;!   _contatores_init
+  1062                           ;!   _delay
+  1063                           ;!
+  1064                           
+  1065                           ;! Address spaces:
+  1066                           
+  1067                           ;!Name               Size   Autos  Total    Cost      Usage
+  1068                           ;!BITCOMMON            E      0       0       0        0.0%
+  1069                           ;!EEDATA             100      0       0       0        0.0%
+  1070                           ;!NULL                 0      0       0       0        0.0%
+  1071                           ;!CODE                 0      0       0       0        0.0%
+  1072                           ;!COMMON               E      8       8       1       57.1%
+  1073                           ;!BITSFR0              0      0       0       1        0.0%
+  1074                           ;!SFR0                 0      0       0       1        0.0%
+  1075                           ;!BITSFR1              0      0       0       2        0.0%
+  1076                           ;!SFR1                 0      0       0       2        0.0%
+  1077                           ;!STACK                0      0       0       2        0.0%
+  1078                           ;!ABS                  0      0       0       3        0.0%
+  1079                           ;!BITBANK0            50      0       0       4        0.0%
+  1080                           ;!BITSFR3              0      0       0       4        0.0%
+  1081                           ;!SFR3                 0      0       0       4        0.0%
+  1082                           ;!BANK0               50      0       0       5        0.0%
+  1083                           ;!BITSFR2              0      0       0       5        0.0%
+  1084                           ;!SFR2                 0      0       0       5        0.0%
+  1085                           ;!BITBANK1            50      0       0       6        0.0%
+  1086                           ;!BANK1               50      0       0       7        0.0%
+  1087                           ;!BITBANK3            60      0       0       8        0.0%
+  1088                           ;!BANK3               60      0       0       9        0.0%
+  1089                           ;!BITBANK2            60      0       0      10        0.0%
+  1090                           ;!BANK2               60      0       0      11        0.0%
+  1091                           ;!DATA                 0      0       0      12        0.0%
+  1092                           
+  1093                           	global	_main
+  1094                           
+  1095 ;; *************** function _main *****************
+  1096 ;; Defined at:
+  1097 ;;		line 15 in file "main.c"
+  1098 ;; Parameters:    Size  Location     Type
+  1099 ;;		None
+  1100 ;; Auto vars:     Size  Location     Type
+  1101 ;;  estado          2    6[COMMON] int 
+  1102 ;;  t               2    4[COMMON] int 
+  1103 ;; Return value:  Size  Location     Type
+  1104 ;;                  1    wreg      void 
+  1105 ;; Registers used:
+  1106 ;;		wreg, fsr0l, fsr0h, status,2, status,0, btemp+1, pclath, cstack
+  1107 ;; Tracked objects:
+  1108 ;;		On entry : B00/0
+  1109 ;;		On exit  : 0/0
+  1110 ;;		Unchanged: 0/0
+  1111 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1112 ;;      Params:         0       0       0       0       0
+  1113 ;;      Locals:         4       0       0       0       0
+  1114 ;;      Temps:          0       0       0       0       0
+  1115 ;;      Totals:         4       0       0       0       0
+  1116 ;;Total ram usage:        4 bytes
+  1117 ;; Hardware stack levels required when called:    1
+  1118 ;; This function calls:
+  1119 ;;		_K1
+  1120 ;;		_K2
+  1121 ;;		_K3
+  1122 ;;		_S0
+  1123 ;;		_S1
+  1124 ;;		_botoes_init
+  1125 ;;		_contatores_init
+  1126 ;;		_delay
+  1127 ;; This function is called by:
+  1128 ;;		Startup code after reset
+  1129 ;; This function uses a non-reentrant model
+  1130 ;;
+  1131                           psect	maintext,global,class=CODE,delta=2,split=1,group=0
+  1132                           	file	"main.c"
+  1133                           	line	15
+  1134                           global __pmaintext
+  1135                           __pmaintext:	;psect for function _main
+  1136  072C                     psect	maintext
+  1137                           	file	"main.c"
+  1138                           	line	15
+  1139                           	global	__size_of_main
+  1140                           	__size_of_main	equ	__end_of_main-_main
+  1141  00D0                     	
+  1142                           _main:	
+  1143  072C                     ;incstack = 0
+  1144                           	opt	stack 7
+  1145                           ; Regs used in _main: [wreg-fsr0h+status,2+status,0+btemp+1+pclath+cstack]
+  1146                           	line	17
+  1147                           	
+  1148                           l761:	
+  1149  072C                     ;main.c: 17:     int estado = 0;
+  1150                           	clrf	(main@estado)
+  1151  072C  01F6               	clrf	(main@estado+1)
+  1152  072D  01F7               	goto	l795
+  1153  072E  2FDE               	line	19
+  1154                           ;main.c: 18:     int t;;main.c: 19:     while ( 1 )
+  1155                           	
+  1156                           l21:	
+  1157  072F                     	line	21
+  1158                           ;main.c: 20:     {;main.c: 21:         switch ( estado )
+  1159                           	goto	l795
+  1160  072F  2FDE               	line	23
+  1161                           ;main.c: 22:         {;main.c: 23:             case 0:
+  1162                           	
+  1163                           l23:	
+  1164  0730                     	line	24
+  1165                           	
+  1166                           l763:	
+  1167  0730                     ;main.c: 24:                     botoes_init();
+  1168                           	fcall	_botoes_init
+  1169  0730  120A  118A  26D5  120A  118A  	line	25
+  1170                           ;main.c: 25:                     contatores_init();
+  1171                           	fcall	_contatores_init
+  1172  0735  120A  118A  26F2  120A  118A  	line	26
+  1173                           	
+  1174                           l765:	
+  1175  073A                     ;main.c: 26:                     estado =1;
+  1176                           	movlw	01h
+  1177  073A  3001               	movwf	(main@estado)
+  1178  073B  00F6               	movlw	0
+  1179  073C  3000               	movwf	((main@estado))+1
+  1180  073D  00F7               	line	27
+  1181                           ;main.c: 27:                     break;
+  1182                           	goto	l795
+  1183  073E  2FDE               	line	28
+  1184                           ;main.c: 28:             case 1:
+  1185                           	
+  1186                           l25:	
+  1187  073F                     	line	29
+  1188                           	
+  1189                           l767:	
+  1190  073F                     ;main.c: 29:                     if(S1()==1)
+  1191                           	fcall	_S1
+  1192  073F  120A  118A  2709  120A  118A  		decf	((0+(?_S1))),w
+  1193  0744  0370               iorwf	((1+(?_S1))),w
+  1194  0745  0471               	btfss	status,2
+  1195  0746  1D03               	goto	u61
+  1196  0747  2F49               	goto	u60
+  1197  0748  2F4A               u61:
+  1198  0749                     	goto	l795
+  1199  0749  2FDE               u60:
+  1200  074A                     	line	30
+  1201                           	
+  1202                           l769:	
+  1203  074A                     ;main.c: 30:                        estado =2;
+  1204                           	movlw	02h
+  1205  074A  3002               	movwf	(main@estado)
+  1206  074B  00F6               	movlw	0
+  1207  074C  3000               	movwf	((main@estado))+1
+  1208  074D  00F7               	goto	l795
+  1209  074E  2FDE               	
+  1210                           l26:	
+  1211  074F                     	line	31
+  1212                           ;main.c: 31:                     break;
+  1213                           	goto	l795
+  1214  074F  2FDE               	line	32
+  1215                           ;main.c: 32:             case 2:
+  1216                           	
+  1217                           l27:	
+  1218  0750                     	line	34
+  1219                           	
+  1220                           l771:	
+  1221  0750                     ;main.c: 34:                     K1(1);
+  1222                           	movlw	01h
+  1223  0750  3001               	movwf	(K1@x)
+  1224  0751  00F0               	movlw	0
+  1225  0752  3000               	movwf	((K1@x))+1
+  1226  0753  00F1               	fcall	_K1
+  1227  0754  120A  118A  26DA  120A  118A  	line	35
+  1228                           ;main.c: 35:                     K2(1);
+  1229                           	movlw	01h
+  1230  0759  3001               	movwf	(K2@x)
+  1231  075A  00F0               	movlw	0
+  1232  075B  3000               	movwf	((K2@x))+1
+  1233  075C  00F1               	fcall	_K2
+  1234  075D  120A  118A  26E2  120A  118A  	line	36
+  1235                           ;main.c: 36:                     K3(0);
+  1236                           	movlw	0
+  1237  0762  3000               	movwf	(K3@x)
+  1238  0763  00F0               	movwf	(K3@x+1)
+  1239  0764  00F1               	fcall	_K3
+  1240  0765  120A  118A  26EA  120A  118A  	line	37
+  1241                           	
+  1242                           l773:	
+  1243  076A                     ;main.c: 37:                     t =5000;
+  1244                           	movlw	088h
+  1245  076A  3088               	movwf	(main@t)
+  1246  076B  00F4               	movlw	013h
+  1247  076C  3013               	movwf	((main@t))+1
+  1248  076D  00F5               	line	38
+  1249                           	
+  1250                           l775:	
+  1251  076E                     ;main.c: 38:                     estado =3;
+  1252                           	movlw	03h
+  1253  076E  3003               	movwf	(main@estado)
+  1254  076F  00F6               	movlw	0
+  1255  0770  3000               	movwf	((main@estado))+1
+  1256  0771  00F7               	line	39
+  1257                           ;main.c: 39:                     break;
+  1258                           	goto	l795
+  1259  0772  2FDE               	line	40
+  1260                           ;main.c: 40:             case 3:
+  1261                           	
+  1262                           l28:	
+  1263  0773                     	line	41
+  1264                           	
+  1265                           l777:	
+  1266  0773                     ;main.c: 41:                      delay (1);
+  1267                           	movlw	01h
+  1268  0773  3001               	movwf	(delay@t)
+  1269  0774  00F0               	movlw	0
+  1270  0775  3000               	movwf	((delay@t))+1
+  1271  0776  00F1               	fcall	_delay
+  1272  0777  120A  118A  2715  120A  118A  	line	42
+  1273                           	
+  1274                           l779:	
+  1275  077C                     ;main.c: 42:                     --t;
+  1276                           	movlw	0FFh
+  1277  077C  30FF               	addwf	(main@t),f
+  1278  077D  07F4               	skipnc
+  1279  077E  1803               	incf	(main@t+1),f
+  1280  077F  0AF5               	movlw	0FFh
+  1281  0780  30FF               	addwf	(main@t+1),f
+  1282  0781  07F5               	line	43
+  1283                           	
+  1284                           l781:	
+  1285  0782                     ;main.c: 43:                     if(t<=0)
+  1286                           	movf	(main@t+1),w
+  1287  0782  0875               	xorlw	80h
+  1288  0783  3A80               	movwf	btemp+1
+  1289  0784  00FF               	movlw	(0)^80h
+  1290  0785  3080               	subwf	btemp+1,w
+  1291  0786  027F               	skipz
+  1292  0787  1D03               	goto	u75
+  1293  0788  2F8B               	movlw	01h
+  1294  0789  3001               	subwf	(main@t),w
+  1295  078A  0274               u75:
+  1296  078B                     
+  1297                           	skipnc
+  1298  078B  1803               	goto	u71
+  1299  078C  2F8E               	goto	u70
+  1300  078D  2F8F               u71:
+  1301  078E                     	goto	l795
+  1302  078E  2FDE               u70:
+  1303  078F                     	line	44
+  1304                           	
+  1305                           l783:	
+  1306  078F                     ;main.c: 44:                         estado =4;
+  1307                           	movlw	04h
+  1308  078F  3004               	movwf	(main@estado)
+  1309  0790  00F6               	movlw	0
+  1310  0791  3000               	movwf	((main@estado))+1
+  1311  0792  00F7               	goto	l795
+  1312  0793  2FDE               	
+  1313                           l29:	
+  1314  0794                     	line	45
+  1315                           ;main.c: 45:                     break;
+  1316                           	goto	l795
+  1317  0794  2FDE               	line	47
+  1318                           ;main.c: 47:             case 4:
+  1319                           	
+  1320                           l30:	
+  1321  0795                     	line	48
+  1322                           	
+  1323                           l785:	
+  1324  0795                     ;main.c: 48:                     K1(1);
+  1325                           	movlw	01h
+  1326  0795  3001               	movwf	(K1@x)
+  1327  0796  00F0               	movlw	0
+  1328  0797  3000               	movwf	((K1@x))+1
+  1329  0798  00F1               	fcall	_K1
+  1330  0799  120A  118A  26DA  120A  118A  	line	49
+  1331                           ;main.c: 49:                     K2(0);
+  1332                           	movlw	0
+  1333  079E  3000               	movwf	(K2@x)
+  1334  079F  00F0               	movwf	(K2@x+1)
+  1335  07A0  00F1               	fcall	_K2
+  1336  07A1  120A  118A  26E2  120A  118A  	line	50
+  1337                           ;main.c: 50:                     K3(1);
+  1338                           	movlw	01h
+  1339  07A6  3001               	movwf	(K3@x)
+  1340  07A7  00F0               	movlw	0
+  1341  07A8  3000               	movwf	((K3@x))+1
+  1342  07A9  00F1               	fcall	_K3
+  1343  07AA  120A  118A  26EA  120A  118A  	line	51
+  1344                           ;main.c: 51:                     if(S0()==1)
+  1345                           	fcall	_S0
+  1346  07AF  120A  118A  26FD  120A  118A  		decf	((0+(?_S0))),w
+  1347  07B4  0370               iorwf	((1+(?_S0))),w
+  1348  07B5  0471               	btfss	status,2
+  1349  07B6  1D03               	goto	u81
+  1350  07B7  2FB9               	goto	u80
+  1351  07B8  2FBA               u81:
+  1352  07B9                     	goto	l795
+  1353  07B9  2FDE               u80:
+  1354  07BA                     	line	52
+  1355                           	
+  1356                           l787:	
+  1357  07BA                     ;main.c: 52:                         estado =5;
+  1358                           	movlw	05h
+  1359  07BA  3005               	movwf	(main@estado)
+  1360  07BB  00F6               	movlw	0
+  1361  07BC  3000               	movwf	((main@estado))+1
+  1362  07BD  00F7               	goto	l795
+  1363  07BE  2FDE               	
+  1364                           l31:	
+  1365  07BF                     	line	53
+  1366                           ;main.c: 53:                     break;
+  1367                           	goto	l795
+  1368  07BF  2FDE               	line	54
+  1369                           ;main.c: 54:             case 5:
+  1370                           	
+  1371                           l32:	
+  1372  07C0                     	line	55
+  1373                           	
+  1374                           l789:	
+  1375  07C0                     ;main.c: 55:                     K1(0);
+  1376                           	movlw	0
+  1377  07C0  3000               	movwf	(K1@x)
+  1378  07C1  00F0               	movwf	(K1@x+1)
+  1379  07C2  00F1               	fcall	_K1
+  1380  07C3  120A  118A  26DA  120A  118A  	line	56
+  1381                           ;main.c: 56:                     K2(0);
+  1382                           	movlw	0
+  1383  07C8  3000               	movwf	(K2@x)
+  1384  07C9  00F0               	movwf	(K2@x+1)
+  1385  07CA  00F1               	fcall	_K2
+  1386  07CB  120A  118A  26E2  120A  118A  	line	57
+  1387                           ;main.c: 57:                     K3(0);
+  1388                           	movlw	0
+  1389  07D0  3000               	movwf	(K3@x)
+  1390  07D1  00F0               	movwf	(K3@x+1)
+  1391  07D2  00F1               	fcall	_K3
+  1392  07D3  120A  118A  26EA  120A  118A  	line	58
+  1393                           	
+  1394                           l791:	
+  1395  07D8                     ;main.c: 58:                     estado =1;
+  1396                           	movlw	01h
+  1397  07D8  3001               	movwf	(main@estado)
+  1398  07D9  00F6               	movlw	0
+  1399  07DA  3000               	movwf	((main@estado))+1
+  1400  07DB  00F7               	line	59
+  1401                           ;main.c: 59:                     break;
+  1402                           	goto	l795
+  1403  07DC  2FDE               	line	61
+  1404                           	
+  1405                           l793:	
+  1406  07DD                     ;main.c: 61:         }
+  1407                           	goto	l795
+  1408  07DD  2FDE               	
+  1409                           l22:	
+  1410  07DE                     	
+  1411                           l795:	
+  1412  07DE                     	; Switch on 2 bytes has been partitioned into a top level switch of size 1, and 1 sub-s
+                                 witches
+  1413                           ; Switch size 1, requested type "space"
+  1414                           ; Number of cases is 1, Range of values is 0 to 0
+  1415                           ; switch strategies available:
+  1416                           ; Name         Instructions Cycles
+  1417                           ; simple_byte            4     3 (average)
+  1418                           ; direct_byte           11     8 (fixed)
+  1419                           ; jumptable            260     6 (fixed)
+  1420                           ;	Chosen strategy is simple_byte
+  1421                           
+  1422                           	movf (main@estado+1),w
+  1423  07DE  0877               	opt asmopt_push
+  1424                           	opt asmopt_off
+  1425                           	xorlw	0^0	; case 0
+  1426  07DF  3A00               	skipnz
+  1427  07E0  1903               	goto	l833
+  1428  07E1  2FE3               	goto	l795
+  1429  07E2  2FDE               	opt asmopt_pop
+  1430                           	
+  1431                           l833:	
+  1432  07E3                     ; Switch size 1, requested type "space"
+  1433                           ; Number of cases is 6, Range of values is 0 to 5
+  1434                           ; switch strategies available:
+  1435                           ; Name         Instructions Cycles
+  1436                           ; simple_byte           19    10 (average)
+  1437                           ; direct_byte           26     8 (fixed)
+  1438                           ; jumptable            260     6 (fixed)
+  1439                           ;	Chosen strategy is simple_byte
+  1440                           
+  1441                           	movf (main@estado),w
+  1442  07E3  0876               	opt asmopt_push
+  1443                           	opt asmopt_off
+  1444                           	xorlw	0^0	; case 0
+  1445  07E4  3A00               	skipnz
+  1446  07E5  1903               	goto	l763
+  1447  07E6  2F30               	xorlw	1^0	; case 1
+  1448  07E7  3A01               	skipnz
+  1449  07E8  1903               	goto	l767
+  1450  07E9  2F3F               	xorlw	2^1	; case 2
+  1451  07EA  3A03               	skipnz
+  1452  07EB  1903               	goto	l771
+  1453  07EC  2F50               	xorlw	3^2	; case 3
+  1454  07ED  3A01               	skipnz
+  1455  07EE  1903               	goto	l777
+  1456  07EF  2F73               	xorlw	4^3	; case 4
+  1457  07F0  3A07               	skipnz
+  1458  07F1  1903               	goto	l785
+  1459  07F2  2F95               	xorlw	5^4	; case 5
+  1460  07F3  3A01               	skipnz
+  1461  07F4  1903               	goto	l789
+  1462  07F5  2FC0               	goto	l795
+  1463  07F6  2FDE               	opt asmopt_pop
+  1464                           
+  1465                           	
+  1466                           l24:	
+  1467  07F7                     	goto	l795
+  1468  07F7  2FDE               	line	62
+  1469                           ;main.c: 62:     }
+  1470                           	
+  1471                           l33:	
+  1472  07F8                     	goto	l795
+  1473  07F8  2FDE               	
+  1474                           l34:	
+  1475  07F9                     	line	63
+  1476                           	
+  1477                           l35:	
+  1478  07F9                     	global	start
+  1479                           	ljmp	start
+  1480  07F9  120A  118A  2800   	opt stack 0
+  1481                           GLOBAL	__end_of_main
+  1482                           	__end_of_main:
+  1483  07FC                     	signat	_main,89
+  1484                           	global	_delay
+  1485                           
+  1486 ;; *************** function _delay *****************
+  1487 ;; Defined at:
+  1488 ;;		line 12 in file "delay.c"
+  1489 ;; Parameters:    Size  Location     Type
+  1490 ;;  t               2    0[COMMON] unsigned int 
+  1491 ;; Auto vars:     Size  Location     Type
+  1492 ;;		None
+  1493 ;; Return value:  Size  Location     Type
+  1494 ;;                  1    wreg      void 
+  1495 ;; Registers used:
+  1496 ;;		wreg, status,2, status,0
+  1497 ;; Tracked objects:
+  1498 ;;		On entry : 0/0
+  1499 ;;		On exit  : 0/0
+  1500 ;;		Unchanged: 0/0
+  1501 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1502 ;;      Params:         2       0       0       0       0
+  1503 ;;      Locals:         0       0       0       0       0
+  1504 ;;      Temps:          1       0       0       0       0
+  1505 ;;      Totals:         3       0       0       0       0
+  1506 ;;Total ram usage:        3 bytes
+  1507 ;; Hardware stack levels used:    1
+  1508 ;; This function calls:
+  1509 ;;		Nothing
+  1510 ;; This function is called by:
+  1511 ;;		_main
+  1512 ;; This function uses a non-reentrant model
+  1513 ;;
+  1514                           psect	text1,local,class=CODE,delta=2,merge=1,group=0
+  1515                           	file	"delay.c"
+  1516                           	line	12
+  1517                           global __ptext1
+  1518                           __ptext1:	;psect for function _delay
+  1519  0715                     psect	text1
+  1520                           	file	"delay.c"
+  1521                           	line	12
+  1522                           	global	__size_of_delay
+  1523                           	__size_of_delay	equ	__end_of_delay-_delay
+  1524  0017                     	
+  1525                           _delay:	
+  1526  0715                     ;incstack = 0
+  1527                           	opt	stack 7
+  1528                           ; Regs used in _delay: [wreg+status,2+status,0]
+  1529                           	line	14
+  1530                           	
+  1531                           l751:	
+  1532  0715                     ;delay.c: 12: void delay (unsigned int t);delay.c: 13: {;delay.c: 14:     while (t)
+  1533                           	goto	l755
+  1534  0715  2F24               	
+  1535                           l41:	
+  1536  0716                     	line	16
+  1537                           	
+  1538                           l753:	
+  1539  0716                     ;delay.c: 15:     {;delay.c: 16:         --t;
+  1540                           	movlw	01h
+  1541  0716  3001               	subwf	(delay@t),f
+  1542  0717  02F0               	movlw	0
+  1543  0718  3000               	skipc
+  1544  0719  1C03               	decf	(delay@t+1),f
+  1545  071A  03F1               	subwf	(delay@t+1),f
+  1546  071B  02F1               	line	17
+  1547                           ;delay.c: 17:         _delay((unsigned long)((1)*(4000000/4000.0)));
+  1548                           	opt asmopt_push
+  1549                           opt asmopt_off
+  1550                           	movlw	199
+  1551  071C  30C7               movwf	((??_delay+0)+0),f
+  1552  071D  00F2               	u97:
+  1553  071E                     	nop2
+  1554  071E  2F1F               decfsz	(??_delay+0)+0,f
+  1555  071F  0BF2               	goto	u97
+  1556  0720  2F1E               	nop2
+  1557  0721  2F22               	nop2
+  1558  0722  2F23               opt asmopt_pop
+  1559                           
+  1560                           	goto	l755
+  1561  0723  2F24               	line	19
+  1562                           ;delay.c: 19:     }
+  1563                           	
+  1564                           l40:	
+  1565  0724                     	line	14
+  1566                           	
+  1567                           l755:	
+  1568  0724                     ;delay.c: 14:     while (t)
+  1569                           	movf	((delay@t)),w
+  1570  0724  0870               iorwf	((delay@t+1)),w
+  1571  0725  0471               	btfss	status,2
+  1572  0726  1D03               	goto	u51
+  1573  0727  2F29               	goto	u50
+  1574  0728  2F2A               u51:
+  1575  0729                     	goto	l753
+  1576  0729  2F16               u50:
+  1577  072A                     	goto	l43
+  1578  072A  2F2B               	
+  1579                           l42:	
+  1580  072B                     	line	21
+  1581                           	
+  1582                           l43:	
+  1583  072B                     	return
+  1584  072B  0008               	opt stack 0
+  1585                           GLOBAL	__end_of_delay
+  1586                           	__end_of_delay:
+  1587  072C                     	signat	_delay,4217
+  1588                           	global	_contatores_init
+  1589                           
+  1590 ;; *************** function _contatores_init *****************
+  1591 ;; Defined at:
+  1592 ;;		line 12 in file "contatores.c"
+  1593 ;; Parameters:    Size  Location     Type
+  1594 ;;		None
+  1595 ;; Auto vars:     Size  Location     Type
+  1596 ;;		None
+  1597 ;; Return value:  Size  Location     Type
+  1598 ;;                  1    wreg      void 
+  1599 ;; Registers used:
+  1600 ;;		None
+  1601 ;; Tracked objects:
+  1602 ;;		On entry : 0/0
+  1603 ;;		On exit  : 0/0
+  1604 ;;		Unchanged: 0/0
+  1605 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1606 ;;      Params:         0       0       0       0       0
+  1607 ;;      Locals:         0       0       0       0       0
+  1608 ;;      Temps:          0       0       0       0       0
+  1609 ;;      Totals:         0       0       0       0       0
+  1610 ;;Total ram usage:        0 bytes
+  1611 ;; Hardware stack levels used:    1
+  1612 ;; This function calls:
+  1613 ;;		Nothing
+  1614 ;; This function is called by:
+  1615 ;;		_main
+  1616 ;; This function uses a non-reentrant model
+  1617 ;;
+  1618                           psect	text2,local,class=CODE,delta=2,merge=1,group=0
+  1619                           	file	"contatores.c"
+  1620                           	line	12
+  1621                           global __ptext2
+  1622                           __ptext2:	;psect for function _contatores_init
+  1623  06F2                     psect	text2
+  1624                           	file	"contatores.c"
+  1625                           	line	12
+  1626                           	global	__size_of_contatores_init
+  1627                           	__size_of_contatores_init	equ	__end_of_contatores_init-_contatores_init
+  1628  000B                     	
+  1629                           _contatores_init:	
+  1630  06F2                     ;incstack = 0
+  1631                           	opt	stack 7
+  1632                           ; Regs used in _contatores_init: []
+  1633                           	line	14
+  1634                           	
+  1635                           l647:	
+  1636  06F2                     ;contatores.c: 14:     TRISDbits.TRISD5 = 0;
+  1637                           	bsf	status, 5	;RP0=1, select bank1
+  1638  06F2  1683               	bcf	status, 6	;RP1=0, select bank1
+  1639  06F3  1303               	bcf	(136)^080h,5	;volatile
+  1640  06F4  1288               	line	15
+  1641                           ;contatores.c: 15:     TRISDbits.TRISD6 = 0;
+  1642                           	bcf	(136)^080h,6	;volatile
+  1643  06F5  1308               	line	16
+  1644                           ;contatores.c: 16:     TRISDbits.TRISD7 = 0;
+  1645                           	bcf	(136)^080h,7	;volatile
+  1646  06F6  1388               	line	17
+  1647                           ;contatores.c: 17:     PORTDbits.RD5 = 0;
+  1648                           	bcf	status, 5	;RP0=0, select bank0
+  1649  06F7  1283               	bcf	status, 6	;RP1=0, select bank0
+  1650  06F8  1303               	bcf	(8),5	;volatile
+  1651  06F9  1288               	line	18
+  1652                           ;contatores.c: 18:     PORTDbits.RD6 = 0;
+  1653                           	bcf	(8),6	;volatile
+  1654  06FA  1308               	line	19
+  1655                           ;contatores.c: 19:     PORTDbits.RD7 = 0;
+  1656                           	bcf	(8),7	;volatile
+  1657  06FB  1388               	line	20
+  1658                           	
+  1659                           l50:	
+  1660  06FC                     	return
+  1661  06FC  0008               	opt stack 0
+  1662                           GLOBAL	__end_of_contatores_init
+  1663                           	__end_of_contatores_init:
+  1664  06FD                     	signat	_contatores_init,89
+  1665                           	global	_botoes_init
+  1666                           
+  1667 ;; *************** function _botoes_init *****************
+  1668 ;; Defined at:
+  1669 ;;		line 11 in file "botoes.c"
+  1670 ;; Parameters:    Size  Location     Type
+  1671 ;;		None
+  1672 ;; Auto vars:     Size  Location     Type
+  1673 ;;		None
+  1674 ;; Return value:  Size  Location     Type
+  1675 ;;                  1    wreg      void 
+  1676 ;; Registers used:
+  1677 ;;		None
+  1678 ;; Tracked objects:
+  1679 ;;		On entry : 0/0
+  1680 ;;		On exit  : 0/0
+  1681 ;;		Unchanged: 0/0
+  1682 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1683 ;;      Params:         0       0       0       0       0
+  1684 ;;      Locals:         0       0       0       0       0
+  1685 ;;      Temps:          0       0       0       0       0
+  1686 ;;      Totals:         0       0       0       0       0
+  1687 ;;Total ram usage:        0 bytes
+  1688 ;; Hardware stack levels used:    1
+  1689 ;; This function calls:
+  1690 ;;		Nothing
+  1691 ;; This function is called by:
+  1692 ;;		_main
+  1693 ;; This function uses a non-reentrant model
+  1694 ;;
+  1695                           psect	text3,local,class=CODE,delta=2,merge=1,group=0
+  1696                           	file	"botoes.c"
+  1697                           	line	11
+  1698                           global __ptext3
+  1699                           __ptext3:	;psect for function _botoes_init
+  1700  06D5                     psect	text3
+  1701                           	file	"botoes.c"
+  1702                           	line	11
+  1703                           	global	__size_of_botoes_init
+  1704                           	__size_of_botoes_init	equ	__end_of_botoes_init-_botoes_init
+  1705  0005                     	
+  1706                           _botoes_init:	
+  1707  06D5                     ;incstack = 0
+  1708                           	opt	stack 7
+  1709                           ; Regs used in _botoes_init: []
+  1710                           	line	13
+  1711                           	
+  1712                           l645:	
+  1713  06D5                     ;botoes.c: 13:     TRISDbits.TRISD0 = 1;
+  1714                           	bsf	status, 5	;RP0=1, select bank1
+  1715  06D5  1683               	bcf	status, 6	;RP1=0, select bank1
+  1716  06D6  1303               	bsf	(136)^080h,0	;volatile
+  1717  06D7  1408               	line	14
+  1718                           ;botoes.c: 14:     TRISDbits.TRISD1 = 1;
+  1719                           	bsf	(136)^080h,1	;volatile
+  1720  06D8  1488               	line	15
+  1721                           	
+  1722                           l66:	
+  1723  06D9                     	return
+  1724  06D9  0008               	opt stack 0
+  1725                           GLOBAL	__end_of_botoes_init
+  1726                           	__end_of_botoes_init:
+  1727  06DA                     	signat	_botoes_init,89
+  1728                           	global	_S1
+  1729                           
+  1730 ;; *************** function _S1 *****************
+  1731 ;; Defined at:
+  1732 ;;		line 17 in file "botoes.c"
+  1733 ;; Parameters:    Size  Location     Type
+  1734 ;;		None
+  1735 ;; Auto vars:     Size  Location     Type
+  1736 ;;		None
+  1737 ;; Return value:  Size  Location     Type
+  1738 ;;                  2    0[COMMON] int 
+  1739 ;; Registers used:
+  1740 ;;		wreg, status,2, status,0
+  1741 ;; Tracked objects:
+  1742 ;;		On entry : 0/0
+  1743 ;;		On exit  : 0/0
+  1744 ;;		Unchanged: 0/0
+  1745 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1746 ;;      Params:         2       0       0       0       0
+  1747 ;;      Locals:         0       0       0       0       0
+  1748 ;;      Temps:          2       0       0       0       0
+  1749 ;;      Totals:         4       0       0       0       0
+  1750 ;;Total ram usage:        4 bytes
+  1751 ;; Hardware stack levels used:    1
+  1752 ;; This function calls:
+  1753 ;;		Nothing
+  1754 ;; This function is called by:
+  1755 ;;		_main
+  1756 ;; This function uses a non-reentrant model
+  1757 ;;
+  1758                           psect	text4,local,class=CODE,delta=2,merge=1,group=0
+  1759                           	line	17
+  1760                           global __ptext4
+  1761                           __ptext4:	;psect for function _S1
+  1762  0709                     psect	text4
+  1763                           	file	"botoes.c"
+  1764                           	line	17
+  1765                           	global	__size_of_S1
+  1766                           	__size_of_S1	equ	__end_of_S1-_S1
+  1767  000C                     	
+  1768                           _S1:	
+  1769  0709                     ;incstack = 0
+  1770                           	opt	stack 7
+  1771                           ; Regs used in _S1: [wreg+status,2+status,0]
+  1772                           	line	19
+  1773                           	
+  1774                           l741:	
+  1775  0709                     ;botoes.c: 19:     return(PORTDbits.RD1);
+  1776                           	bcf	status, 5	;RP0=0, select bank0
+  1777  0709  1283               	bcf	status, 6	;RP1=0, select bank0
+  1778  070A  1303               	rrf	(8),w	;volatile
+  1779  070B  0C08               	andlw	(1<<1)-1
+  1780  070C  3901               	movwf	(??_S1+0)+0
+  1781  070D  00F2               	clrf	(??_S1+0)+0+1
+  1782  070E  01F3               	movf	0+(??_S1+0)+0,w
+  1783  070F  0872               	movwf	(?_S1)
+  1784  0710  00F0               	movf	1+(??_S1+0)+0,w
+  1785  0711  0873               	movwf	(?_S1+1)
+  1786  0712  00F1               	goto	l69
+  1787  0713  2F14               	
+  1788                           l743:	
+  1789  0714                     	line	20
+  1790                           	
+  1791                           l69:	
+  1792  0714                     	return
+  1793  0714  0008               	opt stack 0
+  1794                           GLOBAL	__end_of_S1
+  1795                           	__end_of_S1:
+  1796  0715                     	signat	_S1,90
+  1797                           	global	_S0
+  1798                           
+  1799 ;; *************** function _S0 *****************
+  1800 ;; Defined at:
+  1801 ;;		line 22 in file "botoes.c"
+  1802 ;; Parameters:    Size  Location     Type
+  1803 ;;		None
+  1804 ;; Auto vars:     Size  Location     Type
+  1805 ;;		None
+  1806 ;; Return value:  Size  Location     Type
+  1807 ;;                  2    0[COMMON] int 
+  1808 ;; Registers used:
+  1809 ;;		wreg, status,2, status,0
+  1810 ;; Tracked objects:
+  1811 ;;		On entry : 0/0
+  1812 ;;		On exit  : 0/0
+  1813 ;;		Unchanged: 0/0
+  1814 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1815 ;;      Params:         2       0       0       0       0
+  1816 ;;      Locals:         0       0       0       0       0
+  1817 ;;      Temps:          2       0       0       0       0
+  1818 ;;      Totals:         4       0       0       0       0
+  1819 ;;Total ram usage:        4 bytes
+  1820 ;; Hardware stack levels used:    1
+  1821 ;; This function calls:
+  1822 ;;		Nothing
+  1823 ;; This function is called by:
+  1824 ;;		_main
+  1825 ;; This function uses a non-reentrant model
+  1826 ;;
+  1827                           psect	text5,local,class=CODE,delta=2,merge=1,group=0
+  1828                           	line	22
+  1829                           global __ptext5
+  1830                           __ptext5:	;psect for function _S0
+  1831  06FD                     psect	text5
+  1832                           	file	"botoes.c"
+  1833                           	line	22
+  1834                           	global	__size_of_S0
+  1835                           	__size_of_S0	equ	__end_of_S0-_S0
+  1836  000C                     	
+  1837                           _S0:	
+  1838  06FD                     ;incstack = 0
+  1839                           	opt	stack 7
+  1840                           ; Regs used in _S0: [wreg+status,2+status,0]
+  1841                           	line	24
+  1842                           	
+  1843                           l757:	
+  1844  06FD                     ;botoes.c: 24:     return(PORTDbits.RD0);
+  1845                           	bcf	status, 5	;RP0=0, select bank0
+  1846  06FD  1283               	bcf	status, 6	;RP1=0, select bank0
+  1847  06FE  1303               	movf	(8),w	;volatile
+  1848  06FF  0808               	andlw	(1<<1)-1
+  1849  0700  3901               	movwf	(??_S0+0)+0
+  1850  0701  00F2               	clrf	(??_S0+0)+0+1
+  1851  0702  01F3               	movf	0+(??_S0+0)+0,w
+  1852  0703  0872               	movwf	(?_S0)
+  1853  0704  00F0               	movf	1+(??_S0+0)+0,w
+  1854  0705  0873               	movwf	(?_S0+1)
+  1855  0706  00F1               	goto	l72
+  1856  0707  2F08               	
+  1857                           l759:	
+  1858  0708                     	line	25
+  1859                           	
+  1860                           l72:	
+  1861  0708                     	return
+  1862  0708  0008               	opt stack 0
+  1863                           GLOBAL	__end_of_S0
+  1864                           	__end_of_S0:
+  1865  0709                     	signat	_S0,90
+  1866                           	global	_K3
+  1867                           
+  1868 ;; *************** function _K3 *****************
+  1869 ;; Defined at:
+  1870 ;;		line 35 in file "contatores.c"
+  1871 ;; Parameters:    Size  Location     Type
+  1872 ;;  x               2    0[COMMON] int 
+  1873 ;; Auto vars:     Size  Location     Type
+  1874 ;;		None
+  1875 ;; Return value:  Size  Location     Type
+  1876 ;;                  1    wreg      void 
+  1877 ;; Registers used:
+  1878 ;;		wreg, status,0
+  1879 ;; Tracked objects:
+  1880 ;;		On entry : 0/0
+  1881 ;;		On exit  : 0/0
+  1882 ;;		Unchanged: 0/0
+  1883 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1884 ;;      Params:         2       0       0       0       0
+  1885 ;;      Locals:         0       0       0       0       0
+  1886 ;;      Temps:          0       0       0       0       0
+  1887 ;;      Totals:         2       0       0       0       0
+  1888 ;;Total ram usage:        2 bytes
+  1889 ;; Hardware stack levels used:    1
+  1890 ;; This function calls:
+  1891 ;;		Nothing
+  1892 ;; This function is called by:
+  1893 ;;		_main
+  1894 ;; This function uses a non-reentrant model
+  1895 ;;
+  1896                           psect	text6,local,class=CODE,delta=2,merge=1,group=0
+  1897                           	file	"contatores.c"
+  1898                           	line	35
+  1899                           global __ptext6
+  1900                           __ptext6:	;psect for function _K3
+  1901  06EA                     psect	text6
+  1902                           	file	"contatores.c"
+  1903                           	line	35
+  1904                           	global	__size_of_K3
+  1905                           	__size_of_K3	equ	__end_of_K3-_K3
+  1906  0008                     	
+  1907                           _K3:	
+  1908  06EA                     ;incstack = 0
+  1909                           	opt	stack 7
+  1910                           ; Regs used in _K3: [wreg+status,0]
+  1911                           	line	37
+  1912                           	
+  1913                           l749:	
+  1914  06EA                     ;contatores.c: 35: void K3 (int x);contatores.c: 36: {;contatores.c: 37:     PORTDbits.R
+                                 D5 = x;
+  1915                           	rrf	(K3@x),w
+  1916  06EA  0C70               	bcf	status, 5	;RP0=0, select bank0
+  1917  06EB  1283               	bcf	status, 6	;RP1=0, select bank0
+  1918  06EC  1303               	skipc
+  1919  06ED  1C03               	bcf	(8),5	;volatile
+  1920  06EE  1288               	skipnc
+  1921  06EF  1803               	bsf	(8),5	;volatile
+  1922  06F0  1688               	line	38
+  1923                           	
+  1924                           l59:	
+  1925  06F1                     	return
+  1926  06F1  0008               	opt stack 0
+  1927                           GLOBAL	__end_of_K3
+  1928                           	__end_of_K3:
+  1929  06F2                     	signat	_K3,4217
+  1930                           	global	_K2
+  1931                           
+  1932 ;; *************** function _K2 *****************
+  1933 ;; Defined at:
+  1934 ;;		line 30 in file "contatores.c"
+  1935 ;; Parameters:    Size  Location     Type
+  1936 ;;  x               2    0[COMMON] int 
+  1937 ;; Auto vars:     Size  Location     Type
+  1938 ;;		None
+  1939 ;; Return value:  Size  Location     Type
+  1940 ;;                  1    wreg      void 
+  1941 ;; Registers used:
+  1942 ;;		wreg, status,0
+  1943 ;; Tracked objects:
+  1944 ;;		On entry : 0/0
+  1945 ;;		On exit  : 0/0
+  1946 ;;		Unchanged: 0/0
+  1947 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1948 ;;      Params:         2       0       0       0       0
+  1949 ;;      Locals:         0       0       0       0       0
+  1950 ;;      Temps:          0       0       0       0       0
+  1951 ;;      Totals:         2       0       0       0       0
+  1952 ;;Total ram usage:        2 bytes
+  1953 ;; Hardware stack levels used:    1
+  1954 ;; This function calls:
+  1955 ;;		Nothing
+  1956 ;; This function is called by:
+  1957 ;;		_main
+  1958 ;; This function uses a non-reentrant model
+  1959 ;;
+  1960                           psect	text7,local,class=CODE,delta=2,merge=1,group=0
+  1961                           	line	30
+  1962                           global __ptext7
+  1963                           __ptext7:	;psect for function _K2
+  1964  06E2                     psect	text7
+  1965                           	file	"contatores.c"
+  1966                           	line	30
+  1967                           	global	__size_of_K2
+  1968                           	__size_of_K2	equ	__end_of_K2-_K2
+  1969  0008                     	
+  1970                           _K2:	
+  1971  06E2                     ;incstack = 0
+  1972                           	opt	stack 7
+  1973                           ; Regs used in _K2: [wreg+status,0]
+  1974                           	line	32
+  1975                           	
+  1976                           l747:	
+  1977  06E2                     ;contatores.c: 30: void K2 (int x);contatores.c: 31: {;contatores.c: 32:     PORTDbits.R
+                                 D6 = x;
+  1978                           	rrf	(K2@x),w
+  1979  06E2  0C70               	bcf	status, 5	;RP0=0, select bank0
+  1980  06E3  1283               	bcf	status, 6	;RP1=0, select bank0
+  1981  06E4  1303               	skipc
+  1982  06E5  1C03               	bcf	(8),6	;volatile
+  1983  06E6  1308               	skipnc
+  1984  06E7  1803               	bsf	(8),6	;volatile
+  1985  06E8  1708               	line	33
+  1986                           	
+  1987                           l56:	
+  1988  06E9                     	return
+  1989  06E9  0008               	opt stack 0
+  1990                           GLOBAL	__end_of_K2
+  1991                           	__end_of_K2:
+  1992  06EA                     	signat	_K2,4217
+  1993                           	global	_K1
+  1994                           
+  1995 ;; *************** function _K1 *****************
+  1996 ;; Defined at:
+  1997 ;;		line 24 in file "contatores.c"
+  1998 ;; Parameters:    Size  Location     Type
+  1999 ;;  x               2    0[COMMON] int 
+  2000 ;; Auto vars:     Size  Location     Type
+  2001 ;;		None
+  2002 ;; Return value:  Size  Location     Type
+  2003 ;;                  1    wreg      void 
+  2004 ;; Registers used:
+  2005 ;;		wreg, status,0
+  2006 ;; Tracked objects:
+  2007 ;;		On entry : 0/0
+  2008 ;;		On exit  : 0/0
+  2009 ;;		Unchanged: 0/0
+  2010 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  2011 ;;      Params:         2       0       0       0       0
+  2012 ;;      Locals:         0       0       0       0       0
+  2013 ;;      Temps:          0       0       0       0       0
+  2014 ;;      Totals:         2       0       0       0       0
+  2015 ;;Total ram usage:        2 bytes
+  2016 ;; Hardware stack levels used:    1
+  2017 ;; This function calls:
+  2018 ;;		Nothing
+  2019 ;; This function is called by:
+  2020 ;;		_main
+  2021 ;; This function uses a non-reentrant model
+  2022 ;;
+  2023                           psect	text8,local,class=CODE,delta=2,merge=1,group=0
+  2024                           	line	24
+  2025                           global __ptext8
+  2026                           __ptext8:	;psect for function _K1
+  2027  06DA                     psect	text8
+  2028                           	file	"contatores.c"
+  2029                           	line	24
+  2030                           	global	__size_of_K1
+  2031                           	__size_of_K1	equ	__end_of_K1-_K1
+  2032  0008                     	
+  2033                           _K1:	
+  2034  06DA                     ;incstack = 0
+  2035                           	opt	stack 7
+  2036                           ; Regs used in _K1: [wreg+status,0]
+  2037                           	line	26
+  2038                           	
+  2039                           l745:	
+  2040  06DA                     ;contatores.c: 24: void K1 (int x);contatores.c: 25: {;contatores.c: 26:     PORTDbits.R
+                                 D7 = x;
+  2041                           	rrf	(K1@x),w
+  2042  06DA  0C70               	bcf	status, 5	;RP0=0, select bank0
+  2043  06DB  1283               	bcf	status, 6	;RP1=0, select bank0
+  2044  06DC  1303               	skipc
+  2045  06DD  1C03               	bcf	(8),7	;volatile
+  2046  06DE  1388               	skipnc
+  2047  06DF  1803               	bsf	(8),7	;volatile
+  2048  06E0  1788               	line	27
+  2049                           	
+  2050                           l53:	
+  2051  06E1                     	return
+  2052  06E1  0008               	opt stack 0
+  2053                           GLOBAL	__end_of_K1
+  2054                           	__end_of_K1:
+  2055  06E2                     	signat	_K1,4217
+  2056                           global	___latbits
+  2057                           ___latbits	equ	2
+  2058  0002                     	global	btemp
+  2059                           	btemp set 07Eh
+  2060  007E                     
+  2061                           	DABS	1,126,2	;btemp
+  2062                           	global	wtemp0
+  2063                           	wtemp0 set btemp+0
+  2064  007E                     	end
+
+
+Data Sizes:
+    Strings     0
+    Constant    0
+    Data        0
+    BSS         0
+    Persistent  0
+    Stack       0
+
+Auto Spaces:
+    Space          Size  Autos    Used
+    COMMON           14      8       8
+    BANK0            80      0       0
+    BANK1            80      0       0
+    BANK3            96      0       0
+    BANK2            96      0       0
+
+Pointer List with Targets:
+
+    None.
+
+Critical Paths under _main in COMMON
+
+    _main->_S0
+    _main->_S1
+
+Critical Paths under _main in BANK0
+
+    None.
+
+Critical Paths under _main in BANK1
+
+    None.
+
+Critical Paths under _main in BANK3
+
+    None.
+
+Critical Paths under _main in BANK2
+
+    None.
+
+Call Graph Tables:
+
+ ---------------------------------------------------------------------------------
+ (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+ ---------------------------------------------------------------------------------
+ (0) _main                                                 4     4      0     902
+                                              4 COMMON     4     4      0
+                                 _K1
+                                 _K2
+                                 _K3
+                                 _S0
+                                 _S1
+                        _botoes_init
+                    _contatores_init
+                              _delay
+ ---------------------------------------------------------------------------------
+ (1) _delay                                                3     1      2      99
+                                              0 COMMON     3     1      2
+ ---------------------------------------------------------------------------------
+ (1) _contatores_init                                      0     0      0       0
+ ---------------------------------------------------------------------------------
+ (1) _botoes_init                                          0     0      0       0
+ ---------------------------------------------------------------------------------
+ (1) _S1                                                   4     2      2       0
+                                              0 COMMON     4     2      2
+ ---------------------------------------------------------------------------------
+ (1) _S0                                                   4     2      2       0
+                                              0 COMMON     4     2      2
+ ---------------------------------------------------------------------------------
+ (1) _K3                                                   2     0      2     250
+                                              0 COMMON     2     0      2
+ ---------------------------------------------------------------------------------
+ (1) _K2                                                   2     0      2     250
+                                              0 COMMON     2     0      2
+ ---------------------------------------------------------------------------------
+ (1) _K1                                                   2     0      2     250
+                                              0 COMMON     2     0      2
+ ---------------------------------------------------------------------------------
+ Estimated maximum stack depth 1
+ ---------------------------------------------------------------------------------
+
+ Call Graph Graphs:
+
+ _main (ROOT)
+   _K1
+   _K2
+   _K3
+   _S0
+   _S1
+   _botoes_init
+   _contatores_init
+   _delay
+
+ Address spaces:
+Name               Size   Autos  Total    Cost      Usage
+BITCOMMON            E      0       0       0        0.0%
+EEDATA             100      0       0       0        0.0%
+NULL                 0      0       0       0        0.0%
+CODE                 0      0       0       0        0.0%
+COMMON               E      8       8       1       57.1%
+BITSFR0              0      0       0       1        0.0%
+SFR0                 0      0       0       1        0.0%
+BITSFR1              0      0       0       2        0.0%
+SFR1                 0      0       0       2        0.0%
+STACK                0      0       0       2        0.0%
+ABS                  0      0       0       3        0.0%
+BITBANK0            50      0       0       4        0.0%
+BITSFR3              0      0       0       4        0.0%
+SFR3                 0      0       0       4        0.0%
+BANK0               50      0       0       5        0.0%
+BITSFR2              0      0       0       5        0.0%
+SFR2                 0      0       0       5        0.0%
+BITBANK1            50      0       0       6        0.0%
+BANK1               50      0       0       7        0.0%
+BITBANK3            60      0       0       8        0.0%
+BANK3               60      0       0       9        0.0%
+BITBANK2            60      0       0      10        0.0%
+BANK2               60      0       0      11        0.0%
+DATA                 0      0       0      12        0.0%
+
+
+Microchip Technology PIC Macro Assembler V2.00 build -1524193055 
+Symbol Table                                                                                   Thu Feb 18 16:41:37 2021
+
+             __CFG_CP$OFF 0000                        _K1 06DA                        _K2 06E2  
+                      l21 072F                        _K3 06EA                        l22 07DE  
+                      l30 0795                        l31 07BF                        l23 0730  
+                      l40 0724                        l24 07F7                        l32 07C0  
+                      l41 0716                        l33 07F8                        l25 073F  
+                      l50 06FC                        l42 072B                        l34 07F9  
+                      l26 074F                        l43 072B                        l35 07F9  
+                      l27 0750                        l28 0773                        l53 06E1  
+                      l29 0794                        l56 06E9                        l72 0708  
+                      l66 06D9                        _S0 06FD                        l59 06F1  
+                      _S1 0709                        l69 0714                        u50 072A  
+                      u51 0729                        u60 074A                        u61 0749  
+                      u70 078F                        u71 078E                        u80 07BA  
+                      u81 07B9                        u75 078B                        u97 071E  
+                     K1@x 0070                       K2@x 0070                       K3@x 0070  
+                     ?_K1 0070                       ?_K2 0070                       ?_K3 0070  
+                     ?_S0 0070                       ?_S1 0070                       l741 0709  
+                     l645 06D5                       l743 0714                       l647 06F2  
+                     l751 0715                       l745 06DA                       l753 0716  
+                     l833 07E3                       l761 072C                       l747 06E2  
+                     l755 0724                       l771 0750                       l763 0730  
+                     l749 06EA                       l757 06FD                       l781 0782  
+                     l773 076A                       l765 073A                       l759 0708  
+                     l791 07D8                       l783 078F                       l775 076E  
+                     l767 073F                       l793 07DD                       l785 0795  
+                     l777 0773                       l769 074A                       l787 07BA  
+                     l779 077C                       l795 07DE                       l789 07C0  
+            __CFG_CPD$OFF 0000              ?_botoes_init 0070                      ??_K1 0072  
+                    ??_K2 0072                      ??_K3 0072                      ??_S0 0072  
+                    ??_S1 0072              __CFG_LVP$OFF 0000              __CFG_WRT$OFF 0000  
+                    _main 072C                      btemp 007E                      start 0000  
+           __CFG_IESO$OFF 0000                     ?_main 0070             __CFG_WDTE$OFF 0000  
+          __CFG_FCMEN$OFF 0000                     _delay 0715                     main@t 0074  
+          __CFG_BOREN$OFF 0000                     status 0003                     wtemp0 007E  
+          __CFG_MCLRE$OFF 0000           __initialization 07FC              __end_of_main 07FC  
+                  ??_main 0074                    ?_delay 0070            __CFG_PWRTE$OFF 0000  
+                  delay@t 0070           _contatores_init 06F2      __size_of_botoes_init 0005  
+ __end_of__initialization 07FC            __pcstackCOMMON 0070             __end_of_delay 072C  
+              __end_of_K1 06E2                __end_of_K2 06EA                __end_of_K3 06F2  
+              __end_of_S0 0709                __end_of_S1 0715                   ??_delay 0072  
+              __pmaintext 072C   __end_of_contatores_init 06FD                   __ptext1 0715  
+                 __ptext2 06F2                   __ptext3 06D5                   __ptext4 0709  
+                 __ptext5 06FD                   __ptext6 06EA                   __ptext7 06E2  
+                 __ptext8 06DA      end_of_initialization 07FC                 _PORTDbits 0008  
+        ?_contatores_init 0070                 _TRISDbits 0088                main@estado 0076  
+           ??_botoes_init 0070       start_initialization 07FC  __CFG_FOSC$INTRC_NOCLKOUT 0000  
+               ___latbits 0002       __end_of_botoes_init 06DA            __size_of_delay 0017  
+             __size_of_K1 0008               __size_of_K2 0008               __size_of_K3 0008  
+             __size_of_S0 000C               __size_of_S1 000C               _botoes_init 06D5  
+       __CFG_BOR4V$BOR40V 0000  __size_of_contatores_init 000B             __size_of_main 00D0  
+       ??_contatores_init 0070  
